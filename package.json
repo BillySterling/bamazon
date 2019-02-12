@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/BillySterling/bamazon#readme",
   "dependencies": {
-    "inquirer": "^6.2.2"
+    "inquirer": "^6.2.2",
+    "table": "^5.2.3"
   }
 }
