@@ -1,0 +1,29 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Node.js &amp; MySQL Unit 12 Bootcamp project",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BillySterling/bamazon.git"
+  },
+  "keywords": [
+    "Node",
+    "CLI",
+    "mySQL",
+    "JavaScript",
+    "Inquirer"
+  ],
+  "author": "Billy Sterling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BillySterling/bamazon/issues"
+  },
+  "homepage": "https://github.com/BillySterling/bamazon#readme",
+  "dependencies": {
+    "inquirer": "^6.2.2"
+  }
+}
