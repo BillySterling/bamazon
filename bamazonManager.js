@@ -1,7 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require('cli-table');
-//var table = require("table");
 require('dotenv').config();
 var pass_word = process.env.MYPASSWORD;
 //var nbrEntries = 0;
@@ -216,7 +215,6 @@ function reRun() {
     ]).then(function(resp) {
         var answer = resp.again;
         if (answer === "Transaction") {
-//            nbrEntries = 0;
             mgrConsole();
         }
         else {
