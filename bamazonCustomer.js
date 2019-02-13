@@ -1,7 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+// CLI table utility
 var Table = require('cli-table');
-//var table = require("table");
 require('dotenv').config();
 var pass_word = process.env.MYPASSWORD;
 var nbrEntries = 0;
@@ -34,7 +34,7 @@ function dispGoods() {
     // query the database for all items being auctioned
     connection.query("SELECT * FROM products WHERE stock_quantity > 0;", function(err, results) {
         if (err) throw err;
-
+    // build display table array
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
         };
@@ -71,13 +71,15 @@ function buyGoods() {
           [answer.itemID],
           function(err, results) {
           if (err) throw err;
+          // error if insufficiet stock on hand
           if (results[0].stock_quantity < answer.units) {
             console.log("Sorry, insufficient stock on hand")
             connection.end();
           } else {
+            // update selected item's quantity
             var unitPrice = results[0].price;
             var updateQty = results[0].stock_quantity - answer.units;
-            connection.query("UPDATE PRODUCTS SET ? WHERE ?;", 
+            connection.query("UPDATE products SET ? WHERE ?;", 
             [{
             stock_quantity: updateQty
             },
@@ -86,6 +88,7 @@ function buyGoods() {
             }],
             function(error, res) {
             if (error) throw err;
+            // display transaction total to user
             var custTotal = (unitPrice * answer.units);
             console.log("\nYour total is $" + custTotal.toFixed(2) + "\n");
             reRun();
@@ -95,7 +98,7 @@ function buyGoods() {
   });
 };
 
-//option to search again or exit
+//option to shop again or exit
 function reRun() {
   inquirer.prompt([
       {
@@ -114,6 +117,7 @@ function reRun() {
       else {
         debugger;
           logText = "\nThank you - goodbye\n";
+          // close db connection
           connection.end();
       }
   });
