@@ -26,15 +26,21 @@ VALUES ("Waterpik Water Flosser", "Personal", 88.00, 2000);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Ladies Gold and Diamond Pendant", "Jewelry", 20195.00, 25);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Chevrolet Colorado Floor Mats", "Automotive", 79.95, 1000);
+VALUES ("Ford Explorer Console Cover", "Automotive", 49.95, 500);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Vizio 65-inch LED TV", "Electronics", 999.95, 1200);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("AudioSource 100-watt Amplifier", "Electronics", 229.05, 355);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Roomba Robot Vacuum", "Household", 975.50, 1895);
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Fisher-Price Stroller", "Baby", 125.99, 795);
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Claw Hammer", "Home Improvement", 5.99, 5);
 
 SELECT * FROM products;
+
+
 
 
 
