@@ -190,7 +190,7 @@ function addNewProduct() {
              answer.departmentName,
              answer.unitPrice,
              answer.units],
-            function(err, results) {
+            function(err) {
             if (err) {
                 console.log("\nProduct ***NOT*** Added\n");
                 console.log(err.sqlMessage)
