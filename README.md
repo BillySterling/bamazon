@@ -30,7 +30,7 @@ In order to run this application locally you will need to install the following 
 * npm install mysql
 
 
-## database
+## Database
 
 MySQL database: `bamazon`
 
