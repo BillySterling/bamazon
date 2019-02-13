@@ -4,6 +4,7 @@ var Table = require('cli-table');
 //var table = require("table");
 require('dotenv').config();
 var pass_word = process.env.MYPASSWORD;
+var nbrEntries = 0;
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -37,6 +38,7 @@ function dispGoods() {
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
         };
+    nbrEntries = i;
     console.log("\n\n")
     console.log(table.toString());
     buyGoods();
@@ -51,7 +53,7 @@ function buyGoods() {
           type: "input",
           message: "What is the Item Id of the product you want to buy?",
           validate: function validateFirstName(name){
-            return name !== '';
+            return name !== '' && name <= nbrEntries;
           }
         },
         {
@@ -59,7 +61,7 @@ function buyGoods() {
           type: "input",
           message: "How many would you like to buy?",
           validate: function validateFirstName(name){
-            return name !== '';
+            return name !== '' && name != 0;
           }        
         }
       ])
@@ -68,7 +70,6 @@ function buyGoods() {
         connection.query("SELECT item_id, price, stock_quantity FROM products WHERE item_id = ?;", 
           [answer.itemID],
           function(err, results) {
-            debugger;
           if (err) throw err;
           if (results[0].stock_quantity < answer.units) {
             console.log("Sorry, insufficient stock on hand")
@@ -84,14 +85,36 @@ function buyGoods() {
             item_id: answer.itemID
             }],
             function(error, res) {
-              debugger;
             if (error) throw err;
             var custTotal = (unitPrice * answer.units);
-            console.log("Your total is $" + custTotal.toFixed(2));
-            //console.log("Your total is $" + custTotal);
-//            dispGoods();
+            console.log("\nYour total is $" + custTotal.toFixed(2) + "\n");
+            reRun();
         });
       }
     });
+  });
+};
+
+//option to search again or exit
+function reRun() {
+  inquirer.prompt([
+      {
+      type: "list",
+      message: "Another transaction or exit?",
+      choices: ["Trans", "Exit"],
+      name: "again"
+      }
+  ]).then(function(resp) {
+      var answer = resp.again;
+      debugger;
+      if (answer === "Trans") {
+          nbrEntries = 0;
+          dispGoods();
+      }
+      else {
+        debugger;
+          logText = "\nThank you - goodbye\n";
+          connection.end();
+      }
   });
 };
