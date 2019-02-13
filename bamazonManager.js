@@ -147,8 +147,6 @@ function addToInventory() {
     });
 };
 
-
-
 function addNewProduct() {
     console.log("=====Adding New Product=====\b")
     inquirer
