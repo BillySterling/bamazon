@@ -49,12 +49,18 @@ function buyGoods() {
         {
           name: "itemID",
           type: "input",
-          message: "What is the Item Id of the product you want to buy?"
-          },
+          message: "What is the Item Id of the product you want to buy?",
+          validate: function validateFirstName(name){
+            return name !== '';
+          }
+        },
         {
           name: "units",
           type: "input",
-          message: "How many would you like to buy?"
+          message: "How many would you like to buy?",
+          validate: function validateFirstName(name){
+            return name !== '';
+          }        
         }
       ])
       .then(function(answer) {
@@ -83,6 +89,7 @@ function buyGoods() {
             var custTotal = (unitPrice * answer.units);
             console.log("Your total is $" + custTotal.toFixed(2));
             //console.log("Your total is $" + custTotal);
+//            dispGoods();
         });
       }
     });
