@@ -46,6 +46,9 @@ UPDATE products set stock_quantity = 1 WHERE item_id = 12;
 
 DELETE FROM products WHERE item_id = 14;
 
+ALTER TABLE products
+ADD CONSTRAINT UC_item UNIQUE (product_name, department_name);
+
 
 
 
