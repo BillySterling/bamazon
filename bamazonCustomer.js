@@ -29,10 +29,10 @@ function dispGoods() {
     // set up display using cli-table package
     var table = new Table({
         head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity"]
-        , colWidths: [10, 20, 20, 20, 20]
+        , colWidths: [10, 45, 20, 20, 20]
     });
     // query the database for all items being auctioned
-    connection.query("SELECT * FROM products WHERE stock_quantity > 0 ORDER BY item_id;", function(err, results) {
+    connection.query("SELECT * FROM products WHERE stock_quantity > 0;", function(err, results) {
         if (err) throw err;
 
     for (var i = 0; i < results.length; i++) {
