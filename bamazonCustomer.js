@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   port: 3306,
   // Your username
   user: "root",
-  // Your password
+  // Your password (hekd in .env file)
   password: pass_word,
   database: "bamazon"
 });
@@ -38,6 +38,7 @@ function dispGoods() {
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
         };
+    // save number of entries in database for later audit    
     nbrEntries = i;
     console.log("\n\n")
     console.log(table.toString());
