@@ -4,6 +4,7 @@ var Table = require('cli-table');
 //var table = require("table");
 require('dotenv').config();
 var pass_word = process.env.MYPASSWORD;
+//var nbrEntries = 0;
 var option = "";
 
 // create the connection information for the sql database
@@ -69,7 +70,6 @@ function viewInventory() {
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
         };
-    console.log("\n\n")
     console.log(table.toString());
     reRun();
     });
@@ -86,7 +86,6 @@ function viewLowInventory() {
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
         };
-    console.log("\n\n")
     console.log(table.toString());
     reRun();
     });
@@ -98,16 +97,16 @@ function addToInventory() {
         {
           name: "itemID",
           type: "input",
-          message: "Item Id of the product you want add to?",
-          validate: function validateFirstName(name){
-            return name !== '' && name <= nbrEntries;
+          message: "Item Id of the product you want to add to?",
+          validate: function validateData(name){
+            return name !== '';
           }
         },
         {
           name: "units",
           type: "input",
           message: "How many would you like to add?",
-          validate: function validateFirstName(name){
+          validate: function validateData(name){
             return name !== '' && name != 0;
           }        
         }
@@ -115,42 +114,99 @@ function addToInventory() {
       .then(function(answer) {
         // get the information of the chosen item
         connection.query("SELECT item_id, price, stock_quantity FROM products WHERE item_id = ?;", 
-          [answer.itemID],
-          function(err, results) {
-          if (err) throw err;
-
+            [answer.itemID],
+            function(err, results) {
+            if (err) throw err;
         // update selected item's quantity
-        var unitPrice = results[0].price;
-        var updateQty = results[0].stock_quantity - answer.units;
+        var updateQty = results[0].stock_quantity + parseInt(answer.units);
+        debugger;
         connection.query("UPDATE products SET ? WHERE ?;", 
-        [{
-        stock_quantity: updateQty
-        },
-        {
-        item_id: answer.itemID
-        }],
-        function(error, res) {
-        if (error) throw err;
-        // display transaction total to user
-        var custTotal = (unitPrice * answer.units);
-        console.log("\nYour total is $" + custTotal.toFixed(2) + "\n");
-        reRun();
+            [{
+            stock_quantity: updateQty
+            },
+            {
+            item_id: answer.itemID
+            }],
+            function(error, res) {
+            if (error) throw err;
         });
-      }
+
+        connection.query("SELECT * FROM products WHERE item_id = ?;", 
+            [answer.itemID],
+            function(err, results) {
+            if (err) throw err;
+            console.log("\nUpdate complete\n");
+            var table = new Table({
+                head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity"]
+                , colWidths: [10, 45, 20, 20, 20]
+            });   
+            debugger;     
+            table.push([results[0].item_id, results[0].product_name, results[0].department_name, results[0].price, results[0].stock_quantity]);
+            console.log(table.toString());
+            reRun();
+            });    
+        });
     });
-  });
-
-
-
-
-
-
-
-
 };
 
 
 
+function addNewProduct() {
+    console.log("=====Adding New Product=====\b")
+    inquirer
+      .prompt([
+        {
+          name: "productName",
+          type: "input",
+          message: "Product Name?",
+          validate: function validateData(name){
+            return name !== '';
+          }
+        },
+        {
+            name: "departmentName",
+            type: "input",
+            message: "Department Name?",
+            validate: function validateData(name){
+              return name !== '';
+            }
+          },
+          {
+            name: "unitPrice",
+            type: "input",
+            message: "Unit Price (dollars.cents)?",
+            validate: function validateData(name){
+              return name !== '' && name != 0;
+            }
+          },
+        {
+          name: "units",
+          type: "input",
+          message: "Quantity?",
+          validate: function validateData(name){
+            return name !== '' && name != 0;
+          }        
+        }
+      ])
+      .then(function(answer) {
+        // get the information of the chosen item
+        connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?,?,?,?);",
+            [answer.productName,
+             answer.departmentName,
+             answer.unitPrice,
+             answer.units],
+            function(err, results) {
+            if (err) {
+                console.log("\nProduct ***NOT*** Added\n");
+                console.log(err.sqlMessage)
+                console.log("\n");
+            } else {
+                console.log("\nProduct Added\n");
+            };
+            reRun();
+            });
+        });
+};
 
 //option to run console again or exit
 function reRun() {
@@ -158,21 +214,19 @@ function reRun() {
         {
         type: "list",
         message: "Another transaction or exit?",
-        choices: ["Trans", "Exit"],
+        choices: ["Transaction", "Exit"],
         name: "again"
         }
     ]).then(function(resp) {
         var answer = resp.again;
-        debugger;
-        if (answer === "Trans") {
-            nbrEntries = 0;
+        if (answer === "Transaction") {
+//            nbrEntries = 0;
             mgrConsole();
         }
         else {
-          debugger;
             logText = "\nThank you - goodbye\n";
             // close db connection
             connection.end();
         }
     });
-  };
+};

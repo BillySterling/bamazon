@@ -40,10 +40,11 @@ VALUES ("Claw Hammer", "Home Improvement", 5.99, 5);
 
 SELECT * FROM products;
 
+SELECT item_id, price, stock_quantity FROM products WHERE item_id = 12;
 
+UPDATE products set stock_quantity = 1 WHERE item_id = 12;
 
-
-
+DELETE FROM products WHERE item_id = 14;
 
 
 

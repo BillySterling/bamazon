@@ -33,7 +33,7 @@ function dispGoods() {
     });
     // query the database for all items being auctioned
     connection.query("SELECT * FROM products WHERE stock_quantity > 0;", function(err, results) {
-        if (err) throw err;
+    if (err) throw err;
     // build display table array
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
@@ -52,7 +52,7 @@ function buyGoods() {
           name: "itemID",
           type: "input",
           message: "What is the Item Id of the product you want to buy?",
-          validate: function validateFirstName(name){
+          validate: function validateData(name){
             return name !== '' && name <= nbrEntries;
           }
         },
@@ -60,7 +60,7 @@ function buyGoods() {
           name: "units",
           type: "input",
           message: "How many would you like to buy?",
-          validate: function validateFirstName(name){
+          validate: function validateData(name){
             return name !== '' && name != 0;
           }        
         }
@@ -78,7 +78,7 @@ function buyGoods() {
           } else {
             // update selected item's quantity
             var unitPrice = results[0].price;
-            var updateQty = results[0].stock_quantity - answer.units;
+            var updateQty = results[0].stock_quantity - parseInt(answer.units);
             connection.query("UPDATE products SET ? WHERE ?;", 
             [{
             stock_quantity: updateQty
