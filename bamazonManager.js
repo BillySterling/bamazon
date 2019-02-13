@@ -119,7 +119,6 @@ function addToInventory() {
             if (err) throw err;
         // update selected item's quantity
         var updateQty = results[0].stock_quantity + parseInt(answer.units);
-        debugger;
         connection.query("UPDATE products SET ? WHERE ?;", 
             [{
             stock_quantity: updateQty
@@ -140,7 +139,6 @@ function addToInventory() {
                 head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity"]
                 , colWidths: [10, 45, 20, 20, 20]
             });   
-            debugger;     
             table.push([results[0].item_id, results[0].product_name, results[0].department_name, results[0].price, results[0].stock_quantity]);
             console.log(table.toString());
             reRun();

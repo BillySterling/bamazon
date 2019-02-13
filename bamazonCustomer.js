@@ -73,8 +73,8 @@ function buyGoods() {
           if (err) throw err;
           // error if insufficiet stock on hand
           if (results[0].stock_quantity < answer.units) {
-            console.log("Sorry, insufficient stock on hand")
-            connection.end();
+            console.log("\nSorry, insufficient stock on hand\n")
+            reRun();
           } else {
             // update selected item's quantity
             var unitPrice = results[0].price;
@@ -109,13 +109,11 @@ function reRun() {
       }
   ]).then(function(resp) {
       var answer = resp.again;
-      debugger;
       if (answer === "Trans") {
           nbrEntries = 0;
           dispGoods();
       }
       else {
-        debugger;
           logText = "\nThank you - goodbye\n";
           // close db connection
           connection.end();
