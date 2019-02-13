@@ -104,12 +104,12 @@ function reRun() {
       {
       type: "list",
       message: "Another transaction or exit?",
-      choices: ["Trans", "Exit"],
+      choices: ["Transaction", "Exit"],
       name: "again"
       }
   ]).then(function(resp) {
       var answer = resp.again;
-      if (answer === "Trans") {
+      if (answer === "Transaction") {
           nbrEntries = 0;
           dispGoods();
       }
