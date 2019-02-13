@@ -192,6 +192,7 @@ function addNewProduct() {
              answer.units],
             function(err) {
             if (err) {
+                // throw an error if duplicate product / department item is entered
                 console.log("\nProduct ***NOT*** Added\n");
                 console.log(err.sqlMessage)
                 console.log("\n");
