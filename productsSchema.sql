@@ -39,6 +39,9 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Claw Hammer", "Home Improvement", 5.99, 5);
 
 SELECT * FROM products;
+SELECT DISTINCT department_name FROM products ORDER BY department_name;
+
+
 
 SELECT item_id, price, stock_quantity FROM products WHERE item_id = 12;
 
@@ -64,9 +67,40 @@ CREATE TABLE departments (
 	PRIMARY KEY (department_id)
 );
 
+SELECT * FROM departments;
+TRUNCATE TABLE departments;
 
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Accessories", "6000");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Automotive", "4670");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Baby", "8050");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Clothing", "12570");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Electronics", "3547");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Home Improvement", "8795");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Household", "2790");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Jewelry", "10259");
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Personal", "2325");
 
+CREATE OR REPLACE VIEW deptsummary AS 
+SELECT d.department_id, d.department_name, d.over_head_costs, sum(p.product_sales) AS total_sales FROM departments d
+INNER JOIN products p
+ON d.department_name = p.department_name
+GROUP BY p.department_name
+ORDER BY p.department_name;
 
+SELECT department_id, department_name, over_head_costs, total_sales AS product_sales, total_sales-over_head_costs AS total_profit
+FROM deptsummary
+ORDER BY department_name;
+
+SELECT * FROM deptsummary;
 
 
 
