@@ -41,7 +41,7 @@ VALUES ("Claw Hammer", "Home Improvement", 5.99, 5);
 SELECT * FROM products;
 SELECT DISTINCT department_name FROM products ORDER BY department_name;
 
-
+UPDATE products set department_name = "Home Improvement" WHERE item_id = 29;
 
 SELECT item_id, price, stock_quantity FROM products WHERE item_id = 12;
 

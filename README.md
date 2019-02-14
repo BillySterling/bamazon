@@ -12,6 +12,10 @@ In this activity, we are creating an Amazon-like storefront with the MySQL skill
 
 In this bonus activity, we are creating a product management console to augment the `bamazonCustomer` application.  
 
+`bamazonSupervisor`
+
+In this bonus activity, we are creating a department supervisor console to track product sales across our store's departments and then provide a summary of the highest-grossing departments in the store.
+
 ## Packages Required:
 
 Dotenv module that loads environment variables from a .env file (in this case the database password): 
@@ -39,15 +43,24 @@ In order to run this application locally you will need to install the following 
 
 MySQL database: `bamazon`
 
-Tables: `Products`
+Tables: `products`
 
    * item_id (unique id for each product)
    * product_name (Name of product)
    * department_name
    * price (cost to customer)
    * stock_quantity (how much of the product is available in stores)
+   * product_sales (cumulative product sales value)
 
-Unique key `UC_item` added to table to help prevent entry of duplicate products.
+Unique key `UC_item` added to table to prevent entry of duplicate products.
+
+Tables: `departments`
+
+   * item_id (unique id for each department)
+   * department_name
+   * over_head_costs (cost of doing business per department)
+
+Unique key `UC_item` added to table to prevent entry of duplicate departments.
 
 ## Usage
 
@@ -85,3 +98,24 @@ Selection Description:
    * If a manager selects `View Low Inventory`, then the app will list all items with an inventory count lower than five.
    * If a manager selects `Add to Inventory`, the app will display a prompt that will let the manager "add more" of any item currently in the store.
    * If a manager selects `Add New Product`, the app will allow the manager to add a completely new product to the store.
+
+
+`node bamazonSupervisor.js`
+
+Running this application will:
+   * List a set of menu options:
+   * View product sales information by department   
+   * Create a new department  
+
+Selection Description:
+
+   * If a supervisor selects `View Product Sales by Department`, the app will allow the supervisor to add a completely new department to the store.
+
+   * If a supervisor selects `Add New Department`, the app will allow the supervisor to view overhead costs, total product sales, and calculated total profits by department.
+
+Audits are in place to not allow the following conditions:
+
+   * users cannot enter duplicate departments.
+   * users cannot select zero value for overhead costs.
+
+   
