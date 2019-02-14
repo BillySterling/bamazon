@@ -4,7 +4,7 @@ var inquirer = require("inquirer");
 var Table = require('cli-table');
 require('dotenv').config();
 var pass_word = process.env.MYPASSWORD;
-var nbrEntries = 0;
+var lastIndex = 0;
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   port: 3306,
   // Your username
   user: "root",
-  // Your password (hekd in .env file)
+  // Your password (held in .env file)
   password: pass_word,
   database: "bamazon"
 });
@@ -37,9 +37,8 @@ function dispGoods() {
     // build display table array
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
+        lastIndex = results[i].item_id;  // save number of entries in database for later audit 
         };
-    // save number of entries in database for later audit    
-    nbrEntries = i;
     console.log("\n\n")
     console.log(table.toString());
     buyGoods();
@@ -54,7 +53,7 @@ function buyGoods() {
           type: "input",
           message: "What is the Item Id of the product you want to buy?",
           validate: function validateData(name){
-            return name !== '' && name <= nbrEntries;
+            return name !== '' && name <= lastIndex;
           }
         },
         {
@@ -68,7 +67,7 @@ function buyGoods() {
       ])
       .then(function(answer) {
         // get the information of the chosen item
-        connection.query("SELECT item_id, price, stock_quantity FROM products WHERE item_id = ?;", 
+        connection.query("SELECT item_id, price, stock_quantity, product_sales FROM products WHERE item_id = ?;", 
           [answer.itemID],
           function(err, results) {
           if (err) throw err;
@@ -78,11 +77,17 @@ function buyGoods() {
             reRun();
           } else {
             // update selected item's quantity
+            // calculate and update product sales values
             var unitPrice = results[0].price;
             var updateQty = results[0].stock_quantity - parseInt(answer.units);
-            connection.query("UPDATE products SET ? WHERE ?;", 
+            var custTotal = (unitPrice * answer.units);
+            var productSales = custTotal + results[0].product_sales;
+            connection.query("UPDATE products SET ? , ? WHERE ?;", 
             [{
             stock_quantity: updateQty
+            },
+            {
+            product_sales: productSales
             },
             {
             item_id: answer.itemID
@@ -90,7 +95,6 @@ function buyGoods() {
             function(error, res) {
             if (error) throw err;
             // display transaction total to user
-            var custTotal = (unitPrice * answer.units);
             console.log("\nYour total is $" + custTotal.toFixed(2) + "\n");
             reRun();
         });
@@ -111,7 +115,6 @@ function reRun() {
   ]).then(function(resp) {
       var answer = resp.again;
       if (answer === "Transaction") {
-          nbrEntries = 0;
           dispGoods();
       }
       else {

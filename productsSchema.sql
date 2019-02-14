@@ -49,6 +49,24 @@ DELETE FROM products WHERE item_id = 14;
 ALTER TABLE products
 ADD CONSTRAINT UC_item UNIQUE (product_name, department_name);
 
+ALTER TABLE products
+ADD product_sales DECIMAL(10,2) NULL;
+
+UPDATE products set product_sales = 0; 
+
+INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
+VALUES ("Crowbar", "Home Improvement", 1.29, 8,0);
+
+CREATE TABLE departments (
+	department_id INT NOT NULL AUTO_INCREMENT,
+	department_name VARCHAR(100) NOT NULL,
+	over_head_costs DECIMAL(10,2) NULL,
+	PRIMARY KEY (department_id)
+);
+
+
+
+
 
 
 

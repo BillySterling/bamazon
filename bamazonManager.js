@@ -60,14 +60,14 @@ function getInput(option) {
 
 function viewInventory() {
     var table = new Table({
-        head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity"]
-        , colWidths: [10, 45, 20, 20, 20]
+        head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity", "Product Sales"]
+        , colWidths: [10, 45, 20, 20, 20, 20]
     });    
     connection.query("SELECT * FROM products;", function(err, results) {
         if (err) throw err;
     // build display table array
     for (var i = 0; i < results.length; i++) {
-        table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
+        table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity, results[i].product_sales]);
         };
     console.log(table.toString());
     reRun();
@@ -76,14 +76,14 @@ function viewInventory() {
 
 function viewLowInventory() {
     var table = new Table({
-        head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity"]
-        , colWidths: [10, 45, 20, 20, 20]
+        head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity", "Product Sales"]
+        , colWidths: [10, 45, 20, 20, 20, 20]
     });
     connection.query("SELECT * FROM products WHERE stock_quantity < 5;", function(err, results) {
         if (err) throw err;
     // build display table array
     for (var i = 0; i < results.length; i++) {
-        table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
+        table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity, results[i].product_sales]);
         };
     console.log(table.toString());
     reRun();
@@ -135,10 +135,10 @@ function addToInventory() {
             if (err) throw err;
             console.log("\nUpdate complete\n");
             var table = new Table({
-                head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity"]
-                , colWidths: [10, 45, 20, 20, 20]
+                head: ["Item Id","Product Name", "Department Name", "Price", "Stock Quantity", "Product Sales"]
+                , colWidths: [10, 45, 20, 20, 20, 20]
             });   
-            table.push([results[0].item_id, results[0].product_name, results[0].department_name, results[0].price, results[0].stock_quantity]);
+            table.push([results[0].item_id, results[0].product_name, results[0].department_name, results[0].price, results[0].stock_quantity, results[0].product_sales]);
             console.log(table.toString());
             reRun();
             });    
@@ -184,8 +184,8 @@ function addNewProduct() {
         }
       ])
       .then(function(answer) {
-        // get the information of the chosen item
-        connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES (?,?,?,?);",
+        // get the information of the chosen item being added
+        connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales) VALUES (?,?,?,?, 0);",
             [answer.productName,
              answer.departmentName,
              answer.unitPrice,
@@ -194,8 +194,7 @@ function addNewProduct() {
             if (err) {
                 // throw an error if duplicate product / department item is entered
                 console.log("\nProduct ***NOT*** Added\n");
-                console.log(err.sqlMessage)
-                console.log("\n");
+                console.log(err.sqlMessage + "\n")
             } else {
                 console.log("\nProduct Added\n");
             };
