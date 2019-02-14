@@ -89,6 +89,9 @@ VALUES ("Jewelry", "10259");
 INSERT INTO departments (department_name, over_head_costs)
 VALUES ("Personal", "2325");
 
+ALTER TABLE departments
+ADD CONSTRAINT UC_item UNIQUE (department_name);
+
 CREATE OR REPLACE VIEW deptsummary AS 
 SELECT d.department_id, d.department_name, d.over_head_costs, sum(p.product_sales) AS total_sales FROM departments d
 INNER JOIN products p

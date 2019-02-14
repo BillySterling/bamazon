@@ -73,7 +73,42 @@ function viewSales() {
 };
 
 function addDepartment() {
-    console.log("addDepartment selected");
+    console.log("=====Adding New Department=====\b")
+    inquirer
+      .prompt([
+        {
+          name: "departmentName",
+          type: "input",
+          message: "Department Name?",
+          validate: function validateData(name){
+            return name !== '';
+          }
+        },
+        {
+            name: "overheadCosts",
+            type: "input",
+            message: "Overhead Costs?",
+            validate: function validateData(name){
+                return name !== '' && name != 0;
+            }
+          }
+      ])
+      .then(function(answer) {
+        // get the information of the chosen department being added
+        connection.query("INSERT INTO departments (department_name, over_head_costs) VALUES (?,?);",
+            [answer.departmentName,
+             answer.overheadCosts],
+            function(err) {
+            if (err) {
+                // throw an error if duplicate department item is entered
+                console.log("\nDepartment ***NOT*** Added\n");
+                console.log(err.sqlMessage + "\n")
+            } else {
+                console.log("\nDepartment Added\n");
+            };
+            reRun();
+            });
+        });
 };
 
 //option to run console again or exit
