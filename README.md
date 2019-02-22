@@ -39,6 +39,8 @@ In order to run this application locally you will need to install the following 
 * npm install cli-table
 * npm install mysql
 
+Create a `.env` file in the project root directory and add `MYPASSWORD=<your_mySQL_database_password>`
+
 ## Database
 
 MySQL database: `bamazon`
