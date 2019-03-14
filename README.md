@@ -1,20 +1,20 @@
 # bamazon
 
-#### Node.js &amp; MySQL Unit 12 Bootcamp CLI project
+Node.js &amp; MySQL CLI application.
 
 ## Overview
 
 `bamazonCustomer`
 
-In this activity, we are creating an Amazon-like storefront with the MySQL skills learned this unit. The application will take in orders from customers and deplete stock from the store's inventory.  
+This is an Amazon-like storefront using a command line order entry application. The application will take in orders from customers and deplete stock from the store's inventory. 
 
 `bamazonManager`
 
-In this bonus activity, we are creating a product management console to augment the `bamazonCustomer` application.  
+This is a command line product management console to augment the `bamazonCustomer` application.  
 
 `bamazonSupervisor`
 
-In this bonus activity, we are creating a department supervisor console to track product sales across our store's departments and then provide a summary of the highest-grossing departments in the store.
+This is a command line department supervisor console to track product sales across our store's departments and then provide a summary of the highest-grossing departments in the store.
 
 ## Packages Required:
 
