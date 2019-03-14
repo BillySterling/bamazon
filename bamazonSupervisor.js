@@ -1,10 +1,10 @@
+/* eslint-disable no-console */
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 // CLI table utility
 var Table = require('cli-table');
 require('dotenv').config();
 var pass_word = process.env.MYPASSWORD;
-var lastIndex = 0;
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -33,10 +33,10 @@ function supvConsole() {
             choices: ["View Product Sales by Department","Create New Department"]
         }
     ]).then(function(choice) {  
-        option = choice.option;
+        var option = choice.option;
         getInput(option);  
     });
-};
+}
 
 function getInput(option) {
     switch(option) {
@@ -48,8 +48,8 @@ function getInput(option) {
             break;
         default:
             console.log("*** INVALID INPUT *** \n\n");
-    }; 
-};
+    } 
+}
 
 function viewSales() {
     var table = new Table({
@@ -57,6 +57,7 @@ function viewSales() {
         , colWidths: [10, 45, 20, 20, 20]
     });
     // create SQL view of the products and departments tables, calculating total sales   
+    // eslint-disable-next-line no-unused-vars
     connection.query("CREATE OR REPLACE VIEW `deptsummary` AS SELECT d.department_id, d.department_name,  d.over_head_costs, sum(p.product_sales) AS total_sales FROM departments d INNER JOIN products p ON d.department_name = p.department_name GROUP BY p.department_name ORDER BY p.department_name;", function(err, results) {
         if (err) throw err;
         // extract profit date from the just-created view
@@ -65,12 +66,12 @@ function viewSales() {
             // build display table array
             for (var i = 0; i < results.length; i++) {
                 table.push([results[i].department_id, results[i].department_name, results[i].over_head_costs, results[i].product_sales, results[i].total_profit]);
-                };
+                }
             console.log(table.toString());
             reRun();
             });
         });
-};
+}
 
 function addDepartment() {
     console.log("=====Adding New Department=====\b")
@@ -105,11 +106,11 @@ function addDepartment() {
                 console.log(err.sqlMessage + "\n")
             } else {
                 console.log("\nDepartment Added\n");
-            };
+            }
             reRun();
             });
         });
-};
+}
 
 //option to run console again or exit
 function reRun() {
@@ -126,9 +127,9 @@ function reRun() {
             supvConsole();
         }
         else {
-            logText = "\nThank you - goodbye\n";
+            console.log("\nThank you - goodbye\n");
             // close db connection
             connection.end();
         }
     });
-};
+}
