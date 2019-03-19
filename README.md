@@ -85,6 +85,10 @@ If the above criteria are met the customer's order will be fulfilled.
    * update the SQL database to reflect the remaining quantity.
    * Once updated, show the customer the total cost of their purchase.
 
+
+![Bamazon Customer Screen](bamazonCustomer-1.png)
+
+
 `node bamazonManager.js`
 
 Running this application will:
@@ -100,6 +104,11 @@ Selection Description:
    * If a manager selects `View Low Inventory`, then the app will list all items with an inventory count lower than five.
    * If a manager selects `Add to Inventory`, the app will display a prompt that will let the manager "add more" of any item currently in the store.
    * If a manager selects `Add New Product`, the app will allow the manager to add a completely new product to the store.
+
+
+![Bamazon Manager Screen 2](bamazonManager-2.png)
+![Bamazon Manager Screen 1](bamazonManager-1.png)
+![Bamazon Manager Screen 3](bamazonManager-3.png)
 
 
 `node bamazonSupervisor.js`
@@ -119,6 +128,10 @@ Audits are in place to not allow the following conditions:
 
    * users cannot enter duplicate departments.
    * users cannot select zero value for overhead costs.
+
+
+![Bamazon Supervisor Screen](bamazonSupervisor.png)
+
 
 ## Demo
 
