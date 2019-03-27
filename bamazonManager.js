@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require('cli-table');
@@ -37,7 +38,7 @@ function mgrConsole() {
         option = choice.option;
         getInput(option);  
     });
-};
+}
 
 function getInput(option) {
     switch(option) {
@@ -55,8 +56,8 @@ function getInput(option) {
             break;
         default:
             console.log("*** INVALID INPUT *** \n\n");
-    }; 
-};
+    } 
+}
 
 function viewInventory() {
     var table = new Table({
@@ -68,11 +69,11 @@ function viewInventory() {
     // build display table array
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity, results[i].product_sales]);
-        };
+        }
     console.log(table.toString());
     reRun();
     });
-};
+}
 
 function viewLowInventory() {
     var table = new Table({
@@ -84,11 +85,11 @@ function viewLowInventory() {
     // build display table array
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity, results[i].product_sales]);
-        };
+        }
     console.log(table.toString());
     reRun();
     });
-};
+}
 
 function addToInventory() {
     inquirer
@@ -125,7 +126,7 @@ function addToInventory() {
             {
             item_id: answer.itemID
             }],
-            function(error, res) {
+            function(error) {
             if (error) throw err;
         });
 
@@ -144,7 +145,7 @@ function addToInventory() {
             });    
         });
     });
-};
+}
 
 function addNewProduct() {
     console.log("=====Adding New Product=====\b")
@@ -197,11 +198,11 @@ function addNewProduct() {
                 console.log(err.sqlMessage + "\n")
             } else {
                 console.log("\nProduct Added\n");
-            };
+            }
             reRun();
             });
         });
-};
+}
 
 //option to run console again or exit
 function reRun() {
@@ -218,9 +219,9 @@ function reRun() {
             mgrConsole();
         }
         else {
-            logText = "\nThank you - goodbye\n";
+            console.log("\nThank you - goodbye\n");
             // close db connection
             connection.end();
         }
     });
-};
+}

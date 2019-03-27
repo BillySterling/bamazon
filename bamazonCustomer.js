@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 // CLI table utility
@@ -38,12 +39,12 @@ function dispGoods() {
     for (var i = 0; i < results.length; i++) {
         table.push([results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]);
         lastIndex = results[i].item_id;  // save number of entries in database for later audit 
-        };
+        }
     console.log("\n\n")
     console.log(table.toString());
     buyGoods();
     });
-};
+}
 
 function buyGoods() {
     inquirer
@@ -92,7 +93,7 @@ function buyGoods() {
             {
             item_id: answer.itemID
             }],
-            function(error, res) {
+            function(error) {
             if (error) throw err;
             // display transaction total to user
             console.log("\nYour total is $" + custTotal.toFixed(2) + "\n");
@@ -101,7 +102,7 @@ function buyGoods() {
       }
     });
   });
-};
+}
 
 //option to shop again or exit
 function reRun() {
@@ -118,9 +119,9 @@ function reRun() {
           dispGoods();
       }
       else {
-          logText = "\nThank you - goodbye\n";
+        console.log("\nThank you - goodbye\n");
           // close db connection
           connection.end();
       }
   });
-};
+}
